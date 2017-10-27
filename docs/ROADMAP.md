@@ -67,6 +67,7 @@ Retrieves the definitions of subscription fields for an API
 | Status | Description                          |
 |--------|--------------------------------------|
 | 200    | Updated                              |
+| 404    | Not found                            |
 
 ### GET Field Definitions example
 
@@ -103,6 +104,7 @@ Retrieves the definitions of subscription fields for all APIs
 | Status | Description                          |
 |--------|--------------------------------------|
 | 200    | OK                                   |
+| 404    | Not found                            |
 
 ### GET Field Definitions example
 
@@ -221,6 +223,7 @@ Retrieves the field values of an API subscription by providing the application a
 | Status | Description                          |
 |--------|--------------------------------------|
 | 200    | OK                                   |
+| 404    | Not found                            |
 
 ### GET Field Values example
 
@@ -251,6 +254,7 @@ Retrieves the field values of all API subscriptions related to a specific applic
 | Status | Description                          |
 |--------|--------------------------------------|
 | 200    | OK                                   |
+| 404    | Not found                            |
 
 ### GET Field Values example
 
@@ -281,6 +285,7 @@ curl -v -X GET "http://localhost:9650/field/f121ffa3-df94-43a0-8235-ac4530f9700a
 | Status | Description                          |
 |--------|--------------------------------------|
 | 200    | OK                                   |
+| 404    | Not found                            |
 
 ### GET Field Values example
 
@@ -327,6 +332,7 @@ Retrieves the field values of all API subscriptions
 | Status | Description                          |
 |--------|--------------------------------------|
 | 200    | OK                                   |
+| 404    | Not found                            |
 
 ### GET Field Values example
 
@@ -371,7 +377,7 @@ Deletes the field values of an API subscription
 
 | Status | Description                          |
 |--------|--------------------------------------|
-| 204    | Updated                              |
+| 204    | No content                           |
 | 404    | Not found                            |
 
 ### GET Field Values example

@@ -36,7 +36,7 @@ Creates or updates the definitions of the subscriptions fields for an API.
 
 #### CURL command*
 ```
-curl -v -X PUT "http://localhost:9650/definition/context/ciao-api/version/1.0" -H "Cache-Control: no-cache" -H "Content-Type: application/json" -d '{ "fieldDefinitions": [ { "name": "callback-url", "description": "Callback URL", "type": "URL" }, { "name": "token", "description": "Secure Token", "type": "SecureToken" } ] }' 
+curl -v -X PUT "http://localhost:9650/definition/context/hello/version/1.0" -H "Cache-Control: no-cache" -H "Content-Type: application/json" -d '{ "fieldDefinitions": [ { "name": "callback-url", "description": "Callback URL", "type": "URL" }, { "name": "token", "description": "Secure Token", "type": "SecureToken" } ] }' 
 ```
 #### Request body
 ```json
@@ -67,12 +67,13 @@ Retrieves the definitions of subscription fields for an API
 | Status | Description                          |
 |--------|--------------------------------------|
 | 200    | OK                                   |
+| 404    | Not found                            |
 
 ### GET Field Definitions example
 
 #### CURL command
 ```
-curl -v -X GET "http://localhost:9650/definition/context/ciao-api/version/1.0" -H "Cache-Control: no-cache"
+curl -v -X GET "http://localhost:9650/definition/context/hello/version/1.0" -H "Cache-Control: no-cache"
 ```
 #### Response body
 ```json
@@ -178,6 +179,7 @@ Retrieves the field values of an API subscription by providing the application a
 | Status | Description                          |
 |--------|--------------------------------------|
 | 200    | OK                                   |
+| 404    | Not found                            |
 
 ### GET Field Values example
 
@@ -208,6 +210,7 @@ Retrieves the field values of all API subscriptions related to a specific applic
 | Status | Description                          |
 |--------|--------------------------------------|
 | 200    | OK                                   |
+| 404    | Not found                            |
 
 ### GET Field Values example
 
@@ -281,7 +284,7 @@ Deletes the field values of an API subscription
 
 | Status | Description                          |
 |--------|--------------------------------------|
-| 204    | Updated                              |
+| 204    | No content                           |
 | 404    | Not found                            |
 
 ### GET Field Values example
