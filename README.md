@@ -4,11 +4,11 @@
 
 This microservice stores definitions and values for the HMRC Developer Hub. 
 
-For a description of the road map for further development [see](docs/ROADMAP.md) 
+Further development can be found in the [roadmap](docs/ROADMAP.md) 
 
 ## API Summary
 
-| Path                                                                                                       |  Methods | Description                              |
+| Path                                                                                                       |  Method  | Description                              |
 |------------------------------------------------------------------------------------------------------------|----------|------------------------------------------|
 | [`/definition/context/:apiContext/version/:apiVersion`](#user-content-put-field-definitions)               | `PUT`    | Creates or updates the definitions of the subscriptions fields for an API. |
 | [`/definition/context/:apiContext/version/:apiVersion`](#user-content-get-field-definitions)               | `GET`    | Retrieves the definitions of subscription fields for an API |
@@ -295,3 +295,17 @@ curl -v -X DELETE "http://localhost:9650/field/application/hBnFo14C0y4SckYUbcoL2
 ```
 #### Response body
 None
+
+## Tests
+Some tests require MongoDB to run. 
+Thus, remember to start up MongoDB if you want to run the tests locally.
+There are unit tests, integration tests and acceptance tests plus code coverage reports are generated too.
+In order to run them, use this command line:
+```
+./precheck.sh
+```
+
+
+### License
+
+This code is open source software licensed under the [Apache 2.0 License]("http://www.apache.org/licenses/LICENSE-2.0.html")
