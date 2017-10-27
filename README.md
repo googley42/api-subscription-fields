@@ -30,7 +30,7 @@ Creates or updates the definitions of the subscriptions fields for an API.
 | 201    | Created                              |
 | 200    | Updated                              |
 | 400    | Bad request                          |
-| 404    | NOT_FOUND                            |
+| 404    | Not found                            |
 
 ### PUT Field Definitions example
 
@@ -137,28 +137,37 @@ Creates or updates the field values of an API subscription
 | 201    | Created                              |
 | 200    | Updated                              |
 | 400    | Bad request                          |
-| 404    | NOT_FOUND                            |
+| 404    | Not found                            |
 
 ### PUT Field Values
 
 #### CURL command
 ```
-curl -v -X PUT "http://localhost:9650/field/application/hBnFo14C0y4SckYUbcoL2PbFA40a/context/ciao-api/version/1.0" -H "Cache-Control: no-cache" -H "Content-Type: application/json" -d '{ "fields" : { "callback-url" : "http://localhost:8080/callback", "token" : "abc59609za2q" } }'
+curl -v -X PUT "http://localhost:9650/field/application/hBnFo14C0y4SckYUbcoL2PbFA40a/context/hello/version/1.0" -H "Cache-Control: no-cache" -H "Content-Type: application/json" -d '{ "fields" : { "callback-url" : "http://localhost:8080/callback", "token" : "abc59609za2q" } }'
 ```
 #### Request body
 ```json
 {
-  "clientId" : "xcsvvbe2882L",
-  "apiContext" : "hello",
-  "apiVersion" : "1.0",
   "fields": {
     "callback-id": "http://localhost",
     "token": "abc123"
   }
 }
 ```
+
 #### Response body
-None
+```json
+{
+  "clientId" : "xcsvvbe2882L",
+  "apiContext" : "hello",
+  "apiVersion" : "1.0",
+  "fieldsId" : "55c2b945-1c82-4749-b4fc-42e5u32192ew", 
+  "fields": {
+    "callback-id": "http://localhost",
+    "token": "abc123"
+  }
+}
+```
 
 ## GET Field Values 
 ### `GET /field/application/:clientId/context/:apiContext/version/:apiVersion`
@@ -174,7 +183,7 @@ Retrieves the field values of an API subscription by providing the application a
 
 #### CURL command
 ```
-curl -v -X GET    "http://localhost:9650/field/application/hBnFo14C0y4SckYUbcoL2PbFA40a/context/ciao-api/version/1.0" -H "Cache-Control: no-cache"
+curl -v -X GET    "http://localhost:9650/field/application/hBnFo14C0y4SckYUbcoL2PbFA40a/context/hello/version/1.0" -H "Cache-Control: no-cache"
 ```
 #### Response body
 ```json
@@ -273,12 +282,13 @@ Deletes the field values of an API subscription
 | Status | Description                          |
 |--------|--------------------------------------|
 | 204    | Updated                              |
+| 404    | Not found                            |
 
 ### GET Field Values example
 
 #### CURL command
 ```
-curl -v -X DELETE "http://localhost:9650/field/application/hBnFo14C0y4SckYUbcoL2PbFA40a/context/ciao-api/version/1.0" -H "Cache-Control: no-cache"
+curl -v -X DELETE "http://localhost:9650/field/application/hBnFo14C0y4SckYUbcoL2PbFA40a/context/hello/version/1.0" -H "Cache-Control: no-cache"
 ```
 #### Response body
 None
