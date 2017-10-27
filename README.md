@@ -102,6 +102,7 @@ Retrieves the definitions of subscription fields for all APIs
 | Status | Description                          |
 |--------|--------------------------------------|
 | 200    | OK                                   |
+| 404    | Not found                            |
 
 ### GET Field Definitions example
 
@@ -241,6 +242,7 @@ curl -v -X GET    "http://localhost:9650/field/f121ffa3-df94-43a0-8235-ac4530f97
 | Status | Description                          |
 |--------|--------------------------------------|
 | 200    | OK                                   |
+| 404    | Not found                            |
 
 ### GET Field Values example
 
