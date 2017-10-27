@@ -29,7 +29,6 @@ Creates or updates the definitions of the subscriptions fields for an API.
 |--------|--------------------------------------|
 | 201    | Created                              |
 | 200    | Updated                              |
-| 400    | Bad request                          |
 | 404    | Not found                            |
 
 ### PUT Field Definitions example
@@ -182,7 +181,6 @@ Creates or updates the field values of an API subscription
 |--------|--------------------------------------|
 | 201    | Created                              |
 | 200    | Updated                              |
-| 400    | Bad request                          |
 | 404    | Not found                            |
 
 ### PUT Field Values
