@@ -163,7 +163,7 @@ Deletes the definitions of all subscriptions fields for an API
 | 204    | No Content                           |
 | 404    | Not found                            |
 
-### GET Field Definitions example
+### DELETE Field Definitions example
 
 #### CURL command
 ```
@@ -380,7 +380,7 @@ Deletes the field values of an API subscription
 | 204    | No content                           |
 | 404    | Not found                            |
 
-### GET Field Values example
+### DELETE Field Values example
 
 #### CURL command
 ```

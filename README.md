@@ -287,7 +287,7 @@ Deletes the field values of an API subscription
 | 204    | No content                           |
 | 404    | Not found                            |
 
-### GET Field Values example
+### DELETE Field Values example
 
 #### CURL command
 ```
