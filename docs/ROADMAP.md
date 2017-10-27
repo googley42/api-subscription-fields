@@ -1,10 +1,8 @@
-# API Subscription Fields
+# API Subscription Fields Development Road Map
 
 [![Build Status](https://travis-ci.org/hmrc/api-subscription-fields.svg)](https://travis-ci.org/hmrc/api-subscription-fields) [ ![Download](https://api.bintray.com/packages/hmrc/releases/api-subscription-fields/images/download.svg) ](https://bintray.com/hmrc/releases/api-subscription-fields/_latestVersion)
 
-This microservice stores definitions and values for the HMRC Developer Hub. 
-
-For a description of the road map for further development [see](docs/ROADMAP.md) 
+This microservice stores definitions and values for the HMRC Developer Hub.
 
 ## API Summary
 
@@ -13,10 +11,12 @@ For a description of the road map for further development [see](docs/ROADMAP.md)
 | [`/definition/context/:apiContext/version/:apiVersion`](#user-content-put-field-definitions)               | `PUT`    | Creates or updates the definitions of the subscriptions fields for an API. |
 | [`/definition/context/:apiContext/version/:apiVersion`](#user-content-get-field-definitions)               | `GET`    | Retrieves the definitions of subscription fields for an API |
 | [`/definition`](#user-content-get-field-definitions-for-all-apis)                                          | `GET`    | Retrieves the definitions of subscription fields for all APIs |
+| [`/definition/context/:apiContext/version/:apiVersion`](#user-content-delete-field-definitions)            | `DELETE` | Deletes the definitions of all subscriptions fields for an API |
 | [`/field/application/:clientId/context/:apiContext/version/:apiVersion`](#user-content-put-field-values)   | `PUT`    | Creates or updates the field values of an API subscription |
 | [`/field/application/:clientId/context/:apiContext/version/:apiVersion`](#user-content-get-field-values)   | `GET`    | Retrieves the field values of an API subscription by providing the application and API details |
 | [`/field/:fieldsId`](#user-content-get-field-values-by-fieldsid)                                           | `GET`    | Retrieves the field values of an API subscription by providing the `fieldsId` |
 | [`/field/application/:clientId`](#user-content-get-field-values-by-application)                            | `GET`    | Retrieves the field values of all API subscriptions related to a specific application |
+| [`/field`](#user-content-get-all-field-values)                                                             | `GET`    | Retrieves the field values of all API subscriptions |
 | [`/field/application/:clientId/context/:apiContext/version/:apiVersion`](#user-content-delete-field-values)| `DELETE` | Deletes the field values of an API subscription |
 
 ## PUT Field Definitions 
@@ -66,7 +66,7 @@ Retrieves the definitions of subscription fields for an API
 
 | Status | Description                          |
 |--------|--------------------------------------|
-| 200    | OK                                   |
+| 200    | Updated                              |
 
 ### GET Field Definitions example
 
@@ -77,6 +77,8 @@ curl -v -X GET "http://localhost:9650/definition/context/ciao-api/version/1.0" -
 #### Response body
 ```json
 {
+  "apiContext": "hello",
+  "apiVersion": "1.0",
   "fieldDefinitions": [
     {
       "name": "callback-url",
@@ -111,20 +113,61 @@ curl -v -X GET "http://localhost:9650/definition"   -H "Cache-Control: no-cache"
 #### Response body
 ```json
 {
-  "fieldDefinitions": [
+  "apis": [
     {
-      "name": "callback-url",
-      "description": "Callback URL",
-      "type": "URL"
+      "apiContext": "hello",
+      "apiVersion": "1.0",
+      "fieldDefinitions": [
+        {
+          "name": "callback-url",
+          "description": "Callback URL",
+          "type": "URL"
+        },
+        {
+          "name": "token",
+          "description": "Secure Token",
+          "type": "SecureToken"
+        }
+      ]
     },
     {
-      "name": "token",
-      "description": "Secure Token",
-      "type": "SecureToken"
+      "apiContext": "ciao",
+      "apiVersion": "2.0",
+      "fieldDefinitions": [
+        {
+          "name": "address",
+          "description": "where you live",
+          "type": "String"
+        },
+        {
+          "name": "number",
+          "description": "telephone number",
+          "type": "String"
+        }
+      ]
     }
   ]
 }
 ```
+
+## DELETE Field Definitions 
+### `DELETE /definition/context/:apiContext/version/:apiVersion`
+Deletes the definitions of all subscriptions fields for an API
+
+### Response with
+
+| Status | Description                          |
+|--------|--------------------------------------|
+| 204    | No Content                           |
+
+### GET Field Definitions example
+
+#### CURL command
+```
+curl -v -X DELETE "http://localhost:9650/definition/context/ciao-api/version/1.0" -H "Cache-Control: no-cache"
+```
+#### Response body
+none
 
 ## PUT Field Values 
 ### `PUT /field/application/:clientId/context/:apiContext/version/:apiVersion`
@@ -174,7 +217,7 @@ Retrieves the field values of an API subscription by providing the application a
 
 #### CURL command
 ```
-curl -v -X GET    "http://localhost:9650/field/application/hBnFo14C0y4SckYUbcoL2PbFA40a/context/ciao-api/version/1.0" -H "Cache-Control: no-cache"
+curl -v -X GET "http://localhost:9650/field/application/hBnFo14C0y4SckYUbcoL2PbFA40a/context/ciao-api/version/1.0" -H "Cache-Control: no-cache"
 ```
 #### Response body
 ```json
@@ -204,7 +247,7 @@ Retrieves the field values of all API subscriptions related to a specific applic
 
 #### CURL command
 ```
-curl -v -X GET    "http://localhost:9650/field/f121ffa3-df94-43a0-8235-ac4530f9700a" -H "Cache-Control: no-cache"
+curl -v -X GET "http://localhost:9650/field/f121ffa3-df94-43a0-8235-ac4530f9700a" -H "Cache-Control: no-cache"
 ```
 #### Response body
 ```json
@@ -264,6 +307,54 @@ curl -v -X GET "http://localhost:9650/field/application/xp5036mSZooNOlD0Nfjz7LKn
   ]  
 }
 ```
+
+## GET All Field Values
+### `GET /field`
+
+Retrieves the field values of all API subscriptions
+
+### Response with
+
+| Status | Description                          |
+|--------|--------------------------------------|
+| 200    | OK                                   |
+| 404    | NOT_FOUND                            |
+
+### GET Field Values example
+
+#### CURL command
+```
+curl -v -X GET "http://localhost:9650/field -H "Cache-Control: no-cache"
+```
+#### Response body
+```json
+{
+  "fields":
+  [
+    {
+      "clientId" : "xcsvvbe2882L",
+      "apiContext" : "hello",
+      "apiVersion" : "1.0",
+      "fieldsId" : "55c2b945-1c82-4749-b4fc-42e5u32192ew", 
+      "fields": {
+        "callback-id": "http://localhost",
+        "token": "abc123"
+      }
+    },
+    {
+      "clientId" : "xcsvvbe9999L",
+      "apiContext" : "another-app",
+      "apiVersion" : "1.0",
+      "fieldsId" : "66c2b945-1c82-4749-b4fc-42e5u39999ew", 
+      "fields": {
+        "callback-id": "http://localhost",
+        "token": "abc123"
+      }
+    }
+  ]  
+}
+```
+
 ## DELETE Field Values 
 ### `DELETE /field/application/:clientId/context/:apiContext/version/:apiVersion`
 Deletes the field values of an API subscription
@@ -273,6 +364,7 @@ Deletes the field values of an API subscription
 | Status | Description                          |
 |--------|--------------------------------------|
 | 204    | Updated                              |
+| 404    | Resource not found                   |
 
 ### GET Field Values example
 
