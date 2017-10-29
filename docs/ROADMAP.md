@@ -157,12 +157,12 @@ None
         {
           "name": "address",
           "description": "where you live",
-          "type": "String"
+          "type": "STRING"
         },
         {
           "name": "number",
           "description": "telephone number",
-          "type": "String"
+          "type": "STRING"
         }
       ]
     }

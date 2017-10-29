@@ -114,38 +114,26 @@ None
 #### Response body
 ```json
 {
-  "apis": [
+  "fieldDefinitions": [
     {
-      "apiContext": "hello",
-      "apiVersion": "1.0",
-      "fieldDefinitions": [
-        {
-          "name": "callback-url",
-          "description": "Callback URL",
-          "type": "URL"
-        },
-        {
-          "name": "token",
-          "description": "Secure Token",
-          "type": "SecureToken"
-        }
-      ]
+      "name": "callback-url",
+      "description": "Callback URL",
+      "type": "URL"
     },
     {
-      "apiContext": "ciao",
-      "apiVersion": "2.0",
-      "fieldDefinitions": [
-        {
-          "name": "address",
-          "description": "where you live",
-          "type": "String"
-        },
-        {
-          "name": "number",
-          "description": "telephone number",
-          "type": "String"
-        }
-      ]
+      "name": "token",
+      "description": "Secure Token",
+      "type": "SecureToken"
+    },
+    {
+      "name": "address",
+      "description": "where you live",
+      "type": "STRING"
+    },
+    {
+      "name": "number",
+      "description": "telephone number",
+      "type": "STRING"
     }
   ]
 }
