@@ -6,7 +6,7 @@ This microservice stores definitions and values for the HMRC Developer Hub.
 
 Further development can be found in the [roadmap](docs/ROADMAP.md) 
 
-## API Summary
+## Endpoints Summary
 
 | Path                                                                                                       |  Method  | Description                              |
 |------------------------------------------------------------------------------------------------------------|----------|------------------------------------------|
@@ -29,11 +29,10 @@ Creates or updates the definitions of the subscriptions fields for an API.
 |--------|--------------------------------------|
 | 201    | Created                              |
 | 200    | Updated                              |
-| 404    | Not found                            |
 
-### PUT Field Definitions example
+### example
 
-#### CURL command*
+#### curl command
 ```
 curl -v -X PUT "http://localhost:9650/definition/context/hello/version/1.0" -H "Cache-Control: no-cache" -H "Content-Type: application/json" -d '{ "fieldDefinitions": [ { "name": "callback-url", "description": "Callback URL", "type": "URL" }, { "name": "token", "description": "Secure Token", "type": "SecureToken" } ] }' 
 ```
@@ -65,15 +64,17 @@ Retrieves the definitions of subscription fields for an API
 
 | Status | Description                          |
 |--------|--------------------------------------|
-| 200    | OK                                   |
+| 200    | Updated                              |
 | 404    | Not found                            |
 
-### GET Field Definitions example
+### example
 
-#### CURL command
+#### curl command
 ```
 curl -v -X GET "http://localhost:9650/definition/context/hello/version/1.0" -H "Cache-Control: no-cache"
 ```
+#### Request body
+None
 #### Response body
 ```json
 {
@@ -101,27 +102,50 @@ Retrieves the definitions of subscription fields for all APIs
 | Status | Description                          |
 |--------|--------------------------------------|
 | 200    | OK                                   |
-| 404    | Not found                            |
 
-### GET Field Definitions example
+### example
 
-#### CURL command
+#### curl command
 ```
-curl -v -X GET "http://localhost:9650/definition"   -H "Cache-Control: no-cache"
+curl -v -X GET "http://localhost:9650/definition" -H "Cache-Control: no-cache"
 ```
+#### Request body
+None
 #### Response body
 ```json
 {
-  "fieldDefinitions": [
+  "apis": [
     {
-      "name": "callback-url",
-      "description": "Callback URL",
-      "type": "URL"
+      "apiContext": "hello",
+      "apiVersion": "1.0",
+      "fieldDefinitions": [
+        {
+          "name": "callback-url",
+          "description": "Callback URL",
+          "type": "URL"
+        },
+        {
+          "name": "token",
+          "description": "Secure Token",
+          "type": "SecureToken"
+        }
+      ]
     },
     {
-      "name": "token",
-      "description": "Secure Token",
-      "type": "SecureToken"
+      "apiContext": "ciao",
+      "apiVersion": "2.0",
+      "fieldDefinitions": [
+        {
+          "name": "address",
+          "description": "where you live",
+          "type": "String"
+        },
+        {
+          "name": "number",
+          "description": "telephone number",
+          "type": "String"
+        }
+      ]
     }
   ]
 }
@@ -137,11 +161,10 @@ Creates or updates the field values of an API subscription
 |--------|--------------------------------------|
 | 201    | Created                              |
 | 200    | Updated                              |
-| 404    | Not found                            |
 
-### PUT Field Values
+### example
 
-#### CURL command
+#### curl command
 ```
 curl -v -X PUT "http://localhost:9650/field/application/hBnFo14C0y4SckYUbcoL2PbFA40a/context/hello/version/1.0" -H "Cache-Control: no-cache" -H "Content-Type: application/json" -d '{ "fields" : { "callback-url" : "http://localhost:8080/callback", "token" : "abc59609za2q" } }'
 ```
@@ -154,17 +177,16 @@ curl -v -X PUT "http://localhost:9650/field/application/hBnFo14C0y4SckYUbcoL2PbF
   }
 }
 ```
-
 #### Response body
 ```json
 {
-  "clientId" : "xcsvvbe2882L",
-  "apiContext" : "hello",
-  "apiVersion" : "1.0",
-  "fieldsId" : "55c2b945-1c82-4749-b4fc-42e5u32192ew", 
+  "clientId": "hBnFo14C0y4SckYUbcoL2PbFA40a",
+  "apiContext": "hello",
+  "apiVersion": "1.0",
+  "fieldsId": "55c2b945-1c82-4749-b4fc-42e5u32192ew", 
   "fields": {
-    "callback-id": "http://localhost",
-    "token": "abc123"
+    "callback-id": "http://localhost:8080/callback",
+    "token": "abc59609za2q"
   }
 }
 ```
@@ -180,19 +202,21 @@ Retrieves the field values of an API subscription by providing the application a
 | 200    | OK                                   |
 | 404    | Not found                            |
 
-### GET Field Values example
+### example
 
-#### CURL command
+#### curl command
 ```
-curl -v -X GET    "http://localhost:9650/field/application/hBnFo14C0y4SckYUbcoL2PbFA40a/context/hello/version/1.0" -H "Cache-Control: no-cache"
+curl -v -X GET "http://localhost:9650/field/application/hBnFo14C0y4SckYUbcoL2PbFA40a/context/hello/version/1.0" -H "Cache-Control: no-cache"
 ```
+#### Request body
+None
 #### Response body
 ```json
 {
-  "clientId" : "xcsvvbe2882L",
-  "apiContext" : "hello",
-  "apiVersion" : "1.0",
-  "fieldsId" : "55c2b945-1c82-4749-b4fc-42e5u32192ew", 
+  "clientId": "hBnFo14C0y4SckYUbcoL2PbFA40a",
+  "apiContext": "hello",
+  "apiVersion": "1.0",
+  "fieldsId": "55c2b945-1c82-4749-b4fc-42e5u32192ew", 
   "fields": {
     "callback-id": "http://localhost",
     "token": "abc123"
@@ -201,6 +225,39 @@ curl -v -X GET    "http://localhost:9650/field/application/hBnFo14C0y4SckYUbcoL2
 ```
 
 ## GET Field Values by `fieldsId` 
+### `GET /field/application/:fieldsId`
+Retrieves the field values by providing the `fieldsId` 
+
+### Response with
+
+| Status | Description                          |
+|--------|--------------------------------------|
+| 200    | OK                                   |
+| 404    | Not found                            |
+
+### example
+
+#### curl command
+```
+curl -v -X GET "http://localhost:9650/field/f121ffa3-df94-43a0-8235-ac4530f9700a" -H "Cache-Control: no-cache"
+```
+#### Request body
+None
+#### Response body
+```json
+{
+  "clientId": "xp5036mSZooNOlD0Nfjz7LKnCy0a",
+  "apiContext": "hello",
+  "apiVersion": "1.0",
+  "fieldsId": "55c2b945-1c82-4749-b4fc-42e5u32192ew", 
+  "fields": {
+    "callback-id": "http://localhost",
+    "token": "abc123"
+  }
+}
+```
+
+## GET Field Values by application 
 ### `GET /field/application/:clientId`
 Retrieves the field values of all API subscriptions related to a specific application
 
@@ -211,69 +268,39 @@ Retrieves the field values of all API subscriptions related to a specific applic
 | 200    | OK                                   |
 | 404    | Not found                            |
 
-### GET Field Values example
+### example
 
-#### CURL command
-```
-curl -v -X GET    "http://localhost:9650/field/f121ffa3-df94-43a0-8235-ac4530f9700a" -H "Cache-Control: no-cache"
-```
-#### Response body
-```json
-{
-  "clientId" : "xcsvvbe2882L",
-  "apiContext" : "hello",
-  "apiVersion" : "1.0",
-  "fieldsId" : "55c2b945-1c82-4749-b4fc-42e5u32192ew", 
-  "fields": {
-    "callback-id": "http://localhost",
-    "token": "abc123"
-  }
-}
-```
-
-## GET Field Values by application 
-### `GET /field/application/:clientId`
-
-
-### Response with
-
-| Status | Description                          |
-|--------|--------------------------------------|
-| 200    | OK                                   |
-| 404    | Not found                            |
-
-### GET Field Values example
-
-#### CURL command
+#### curl command
 ```
 curl -v -X GET "http://localhost:9650/field/application/xp5036mSZooNOlD0Nfjz7LKnCy0a" -H "Cache-Control: no-cache"
 ```
+#### Request body
+None
 #### Response body
 ```json
 {
-  "fields":
-  [
+  "fields": [
     {
-      "clientId" : "xcsvvbe2882L",
-      "apiContext" : "hello",
-      "apiVersion" : "1.0",
-      "fieldsId" : "55c2b945-1c82-4749-b4fc-42e5u32192ew", 
+      "clientId": "xp5036mSZooNOlD0Nfjz7LKnCy0a",
+      "apiContext": "hello",
+      "apiVersion": "1.0",
+      "fieldsId": "55c2b945-1c82-4749-b4fc-42e5u32192ew",
       "fields": {
-        "callback-id": "http://localhost",
+        "callback-id": "http://localhost:8080",
         "token": "abc123"
       }
     },
     {
-      "clientId" : "xcsvvbe9999L",
-      "apiContext" : "another-app",
-      "apiVersion" : "1.0",
-      "fieldsId" : "66c2b945-1c82-4749-b4fc-42e5u39999ew", 
+      "clientId": "xp5036mSZooNOlD0Nfjz7LKnCy0a",
+      "apiContext": "callme",
+      "apiVersion": "2.0",
+      "fieldsId": "66c2b945-1c82-4749-b4fc-42e5u39999ew",
       "fields": {
-        "callback-id": "http://localhost",
-        "token": "abc123"
+        "callback-id": "http://localhost:8081",
+        "token": "def456"
       }
     }
-  ]  
+  ]
 }
 ```
 ## DELETE Field Values 
@@ -284,17 +311,20 @@ Deletes the field values of an API subscription
 
 | Status | Description                          |
 |--------|--------------------------------------|
-| 204    | No content                           |
+| 204    | Deleted                              |
 | 404    | Not found                            |
 
-### DELETE Field Values example
+### example
 
-#### CURL command
+#### curl command
 ```
 curl -v -X DELETE "http://localhost:9650/field/application/hBnFo14C0y4SckYUbcoL2PbFA40a/context/hello/version/1.0" -H "Cache-Control: no-cache"
 ```
+#### Request body
+None
 #### Response body
 None
+
 
 ## Tests
 Some tests require MongoDB to run. 
