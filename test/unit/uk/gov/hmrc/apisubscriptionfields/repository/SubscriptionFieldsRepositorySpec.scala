@@ -103,6 +103,32 @@ class SubscriptionFieldsRepositorySpec extends UnitSpec
     }
   }
 
+  "saveAtomic" should {
+    val apiSubscriptionFields = createApiSubscriptionFields()
+
+    import reactivemongo.play.json._
+
+    "insert the record in the collection" in {
+      collectionSize shouldBe 0
+
+      await(repository.saveAtomic(apiSubscriptionFields, apiSubscriptionFields.fieldsId)) shouldBe ((apiSubscriptionFields, true))
+      collectionSize shouldBe 1
+      await(repository.collection.find(selector(apiSubscriptionFields)).one[SubscriptionFields]) shouldBe Some(apiSubscriptionFields)
+    }
+
+    "update the record in the collection" in {
+      collectionSize shouldBe 0
+
+      await(repository.saveAtomic(apiSubscriptionFields, apiSubscriptionFields.fieldsId)) shouldBe ((apiSubscriptionFields, true))
+      collectionSize shouldBe 1
+
+      val edited = apiSubscriptionFields.copy(fields = Map("field4" -> "value_4"))
+      await(repository.save(edited)) shouldBe ((edited, false))
+      collectionSize shouldBe 1
+      await(repository.collection.find(selector(edited)).one[SubscriptionFields]) shouldBe Some(edited)
+    }
+  }
+
   "fetchByClientId" should {
     "retrieve the correct records for a clientId" in {
       val apiSubForApp1Context1 = createSubscriptionFieldsWithApiContext()
